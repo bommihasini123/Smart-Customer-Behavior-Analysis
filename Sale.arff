@@ -1,0 +1,12 @@
+@relation Sale
+
+@attribute Product {Lipstick,Shampoo,Soap,Facewash}
+@attribute Price numeric
+@attribute Quantity numeric
+@attribute Brand {Lakme,Dove,Loreal,Nivea}
+
+@data
+Lipstick,250,2,Lakme
+Shampoo,350,1,Dove
+Soap,50,5,Nivea
+Facewash,180,3,Loreal

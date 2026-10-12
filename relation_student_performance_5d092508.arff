@@ -1,0 +1,13 @@
+@relation student_performance
+
+@attribute study_hours numeric
+@attribute attendance numeric
+@attribute marks numeric
+@attribute result {Pass,Fail}
+
+@data
+5,90,85,Pass
+3,75,65,Pass
+1,50,35,Fail
+6,95,90,Pass
+2,60,45,Fail

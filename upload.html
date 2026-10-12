@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Upload Dataset - Customer Analytics</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f6fb;
+            color: #243047;
+        }
+
+        header {
+            background: #173b72;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        nav {
+            background: #245ca3;
+            padding: 13px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 5px 10px;
+            display: inline-block;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 22px;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            margin-bottom: 24px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #0000000d;
+            scroll-margin-top: 20px;
+        }
+
+        h2 {
+            color: #205ca3;
+            margin-top: 0;
+        }
+
+        .upload-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            max-width: 100%;
+        }
+
+        button {
+            background: #2166b1;
+            color: white;
+            border: none;
+            padding: 13px 22px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(170px, 1fr)
+            );
+            gap: 15px;
+        }
+
+        .stat {
+            background: #eff6ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #2563eb;
+        }
+
+        .stat h3 {
+            font-size: 14px;
+            margin: 0 0 12px;
+        }
+
+        .stat p {
+            font-size: 26px;
+            font-weight: bold;
+            color: #1d4ed8;
+            margin: 0;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 500px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #dbe2ea;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(230px, 1fr)
+            );
+            gap: 15px;
+        }
+
+        .result-card {
+            background: #f8fafc;
+            padding: 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+        }
+
+        .accuracy {
+            color: #15803d;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .success {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 7px;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(280px, 1fr)
+            );
+            gap: 20px;
+        }
+
+        .chart {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .chart img {
+            width: 100%;
+            height: auto;
+        }
+
+        footer {
+            background: #112b52;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>Smart Customer Behavior Analysis</h1>
+
+    <p>Upload Dataset and View Analysis Results</p>
+
+</header>
+
+
+<nav>
+
+    <a href="{{ url_for('home') }}">Home</a>
+
+    <a href="#upload">Upload Dataset</a>
+
+    <a href="#information">Dataset Information</a>
+
+    <a href="#classification">Classification</a>
+
+    <a href="#visualization">Visualization</a>
+
+    <a href="#clustering">Clustering</a>
+
+    <a href="#association">Association Rules</a>
+
+</nav>
+
+
+<div class="container">
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="error">{{ message }}</div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- UPLOAD -->
+
+    <section class="card" id="upload">
+
+        <h2>Upload Your Dataset</h2>
+
+        <p>
+            Select a CSV or ARFF file. The results will appear below.
+        </p>
+
+        <form
+            class="upload-form"
+            method="POST"
+            action="{{ url_for('upload') }}"
+            enctype="multipart/form-data"
+        >
+
+            <input
+                type="file"
+                name="file"
+                accept=".csv,.arff"
+                required
+            >
+
+            <button type="submit">
+                Upload and Analyze
+            </button>
+
+        </form>
+
+        {% if dataset_name %}
+
+            <p>
+                <strong>Dataset:</strong>
+                {{ dataset_name }}
+            </p>
+
+        {% endif %}
+
+    </section>
+
+
+    {% if dashboard %}
+
+
+    <!-- DATASET INFORMATION -->
+
+    <section class="card" id="information">
+
+        <h2>Dataset Information</h2>
+
+        <div class="stats">
+
+            <div class="stat">
+                <h3>Total Rows</h3>
+                <p>{{ dashboard.row_count }}</p>
+            </div>
+
+            <div class="stat">
+                <h3>Total Columns</h3>
+                <p>{{ dashboard.column_count }}</p>
+            </div>
+
+            <div class="stat">
+                <h3>Missing Values</h3>
+                <p>{{ dashboard.missing_count }}</p>
+            </div>
+
+            <div class="stat">
+                <h3>Duplicate Rows</h3>
+                <p>{{ dashboard.duplicate_count }}</p>
+            </div>
+
+        </div>
+
+        <h3>Dataset Preview</h3>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        {% for column in dashboard.preview.columns %}
+                            <th>{{ column }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in dashboard.preview.rows %}
+                        <tr>
+                            {% for value in row %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- PREPROCESSING -->
+
+    <section class="card" id="preprocessing">
+
+        <h2>Data Preprocessing</h2>
+
+        <div class="stats">
+
+            <div class="stat">
+                <h3>Rows After Cleaning</h3>
+                <p>{{ dashboard.cleaned_row_count }}</p>
+            </div>
+
+            <div class="stat">
+                <h3>Missing Values After Cleaning</h3>
+                <p>{{ dashboard.cleaned_missing_count }}</p>
+            </div>
+
+            <div class="stat">
+                <h3>Duplicates After Cleaning</h3>
+                <p>{{ dashboard.cleaned_duplicate_count }}</p>
+            </div>
+
+        </div>
+
+        <h3>Cleaned Dataset Preview</h3>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        {% for column in dashboard.cleaned_preview.columns %}
+                            <th>{{ column }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in dashboard.cleaned_preview.rows %}
+                        <tr>
+                            {% for value in row %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- CLASSIFICATION -->
+
+    <section class="card" id="classification">
+
+        <h2>Classification Results</h2>
+
+        <p>
+            The last dataset column is used as the target column.
+        </p>
+
+        <div class="result-grid">
+
+            {% for result in dashboard.classification_results %}
+
+                <div class="result-card">
+
+                    <h3>{{ result.name }}</h3>
+
+                    {% if result.accuracy is defined %}
+
+                        <p class="accuracy">
+                            {{ result.accuracy }}%
+                        </p>
+
+                        <p>Accuracy</p>
+
+                        <p>
+                            <strong>Target:</strong>
+                            {{ result.target }}
+                        </p>
+
+                        <p class="success">
+                            {{ result.status }}
+                        </p>
+
+                        <details>
+
+                            <summary>Confusion Matrix</summary>
+
+                            <div class="table-wrap">
+
+                                <table>
+                                    {% for row in result.matrix %}
+                                        <tr>
+                                            {% for value in row %}
+                                                <td>{{ value }}</td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+
+                            </div>
+
+                        </details>
+
+                    {% else %}
+
+                        <p class="error">
+                            {{ result.status }}
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- VISUALIZATION -->
+
+    <section class="card" id="visualization">
+
+        <h2>Data Visualization</h2>
+
+        <div class="chart-grid">
+
+            {% for chart in dashboard.charts %}
+
+                <div class="chart">
+
+                    <h3>{{ chart.title }}</h3>
+
+                    <img src="{{ chart.url }}" alt="{{ chart.title }}">
+
+                </div>
+
+            {% else %}
+
+                <p>No charts available.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- CLUSTERING -->
+
+    <section class="card" id="clustering">
+
+        <h2>K-Means Clustering</h2>
+
+        {% if dashboard.clustering.status == "Success" %}
+
+            <p class="success">
+                Clustering completed successfully.
+            </p>
+
+            <p>
+                <strong>Clusters:</strong>
+                {{ dashboard.clustering.number_of_clusters }}
+            </p>
+
+            <div class="chart">
+
+                <img
+                    src="{{ dashboard.clustering.url }}"
+                    alt="K-Means graph"
+                >
+
+            </div>
+
+            <h3>Records in Each Cluster</h3>
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <tr>
+                        <th>Cluster</th>
+                        <th>Records</th>
+                    </tr>
+
+                    {% for cluster, count in dashboard.clustering.counts.items() %}
+
+                        <tr>
+                            <td>{{ cluster }}</td>
+                            <td>{{ count }}</td>
+                        </tr>
+
+                    {% endfor %}
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <p class="error">
+                {{ dashboard.clustering.status }}
+            </p>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- APRIORI -->
+
+    <section class="card" id="association">
+
+        <h2>Apriori Association Rules</h2>
+
+        <p>
+            <strong>Status:</strong>
+            {{ dashboard.association.status }}
+        </p>
+
+        {% if dashboard.association.rules %}
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <tr>
+                        <th>If</th>
+                        <th>Then</th>
+                        <th>Support (%)</th>
+                        <th>Confidence (%)</th>
+                        <th>Lift</th>
+                    </tr>
+
+                    {% for rule in dashboard.association.rules %}
+
+                        <tr>
+                            <td>{{ rule["if"] }}</td>
+                            <td>{{ rule["then"] }}</td>
+                            <td>{{ rule.support }}</td>
+                            <td>{{ rule.confidence }}</td>
+                            <td>{{ rule.lift }}</td>
+                        </tr>
+
+                    {% endfor %}
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <p>No association rules found.</p>
+
+        {% endif %}
+
+    </section>
+
+
+    {% else %}
+
+    <section class="card">
+
+        <h2>Ready to Analyze Your Dataset?</h2>
+
+        <p>
+            Select a dataset above. Once it is uploaded,
+            its information and analysis results will appear here.
+        </p>
+
+    </section>
+
+    {% endif %}
+
+</div>
+
+
+<footer>
+
+    <h3>Smart Customer Behavior Analysis</h3>
+
+    <p>Data Mining | Machine Learning | Data Visualization</p>
+
+</footer>
+
+</body>
+
+</html>

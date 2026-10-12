@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Preprocessing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+<header>
+    <h1>Universal Data Mining Platform</h1>
+    <p>Data Preprocessing</p>
+</header>
+
+<main>
+    <section class="upload-section">
+        <h2>Dataset Cleaning</h2>
+
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+
+        <p><b>Original Rows:</b> {{ original_rows }}</p>
+        <p><b>Original Columns:</b> {{ original_columns }}</p>
+        <p><b>Missing Values:</b> {{ missing_values }}</p>
+        <p><b>Duplicate Rows:</b> {{ duplicate_rows }}</p>
+
+        <form method="POST" action="{{ url_for('preprocessing') }}">
+            <button type="submit">Preprocess Data</button>
+        </form>
+
+        {% if cleaned_rows is not none %}
+            <h3>Preprocessing Results</h3>
+            <p><b>Cleaned Rows:</b> {{ cleaned_rows }}</p>
+
+            {% if cleaned_preview %}
+                <div class="table-container">
+                    {{ cleaned_preview | safe }}
+                </div>
+            {% endif %}
+
+            <br>
+            <a href="{{ url_for('download_cleaned') }}">
+                Download Cleaned Dataset
+            </a>
+        {% endif %}
+    </section>
+
+    <p><a href="{{ url_for('home') }}">Back to Home</a></p>
+</main>
+</body>
+</html>

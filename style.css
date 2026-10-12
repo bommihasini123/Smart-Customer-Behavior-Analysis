@@ -1,0 +1,292 @@
+/* Universal Data Mining Platform - Professional UI */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f7fc;
+    color: #263449;
+    line-height: 1.6;
+}
+
+/* Header */
+
+header {
+    background: linear-gradient(135deg, #102a56, #1769aa);
+    color: #ffffff;
+    text-align: center;
+    padding: 38px 20px;
+    box-shadow: 0 4px 15px rgba(16, 42, 86, 0.15);
+}
+
+header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+header p {
+    font-size: 16px;
+    color: #e3efff;
+}
+
+/* Main Content */
+
+main {
+    max-width: 1250px;
+    margin: auto;
+    padding: 35px 22px;
+    text-align: center;
+}
+
+main > h2 {
+    color: #102a56;
+    font-size: 27px;
+    margin-bottom: 12px;
+}
+
+main > p {
+    color: #64748b;
+    margin-bottom: 28px;
+}
+
+/* Sections */
+
+.upload-section,
+.results {
+    background: #ffffff;
+    max-width: 1000px;
+    margin: 28px auto;
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid #e5edf7;
+    box-shadow: 0 8px 25px rgba(16, 42, 86, 0.07);
+    transition: box-shadow 0.3s ease;
+}
+
+.upload-section:hover,
+.results:hover {
+    box-shadow: 0 12px 30px rgba(16, 42, 86, 0.12);
+}
+
+.upload-section h2,
+.results h2 {
+    color: #1769aa;
+    font-size: 23px;
+    margin-bottom: 20px;
+}
+
+/* Input Fields */
+
+input[type="file"],
+input[type="text"],
+input[type="number"],
+select {
+    max-width: 100%;
+    padding: 12px;
+    margin: 10px 5px;
+    border: 1px solid #cbd8e8;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #263449;
+    font-size: 15px;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #1769aa;
+    box-shadow: 0 0 0 3px rgba(23, 105, 170, 0.12);
+}
+
+/* Buttons */
+
+button,
+input[type="submit"] {
+    background: linear-gradient(135deg, #1769aa, #1254a0);
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 8px 5px;
+    transition: all 0.25s ease;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background: #102a56;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(16, 42, 86, 0.2);
+}
+
+/* Result Text */
+
+.results p {
+    margin: 12px 0;
+    color: #475569;
+}
+
+.results h3 {
+    margin: 22px 0 12px;
+    color: #102a56;
+    font-size: 19px;
+}
+
+/* Tables */
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 18px;
+    border-radius: 10px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+.data-table th,
+.data-table td {
+    border: 1px solid #e2e8f0;
+    padding: 12px 14px;
+    text-align: left;
+}
+
+.data-table th {
+    background: #1769aa;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.data-table tr:nth-child(even) {
+    background: #f0f6fc;
+}
+
+.data-table tr:hover {
+    background: #e3efff;
+}
+
+/* Dashboard Cards */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    max-width: 1150px;
+    margin: 35px auto;
+}
+
+.card {
+    background: #ffffff;
+    padding: 28px 20px;
+    border-radius: 14px;
+    border: 1px solid #e2eaf5;
+    box-shadow: 0 6px 20px rgba(16, 42, 86, 0.06);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(16, 42, 86, 0.12);
+}
+
+.card h3 {
+    color: #1769aa;
+    font-size: 19px;
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: #64748b;
+    line-height: 1.8;
+}
+
+/* Images and Charts */
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+/* Links */
+
+a {
+    color: #1769aa;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #102a56;
+    text-decoration: underline;
+}
+
+/* Footer */
+
+footer {
+    background: #102a56;
+    color: #ffffff;
+    text-align: center;
+    padding: 22px 15px;
+    margin-top: 40px;
+}
+
+footer p {
+    font-size: 14px;
+    color: #e3efff;
+}
+
+/* Responsive Design */
+
+@media (max-width: 900px) {
+    .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    header h1 {
+        font-size: 27px;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 28px 15px;
+    }
+
+    header h1 {
+        font-size: 23px;
+    }
+
+    main {
+        padding: 22px 12px;
+    }
+
+    .upload-section,
+    .results {
+        padding: 20px 15px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    button,
+    input[type="submit"] {
+        max-width: 100%;
+    }
+}
